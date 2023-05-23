@@ -1,20 +1,16 @@
 class Student(object):
-    name = "Ivan"
-    age = 18
-    groupNumber = "10A"
-
-    def __init__(self, name, age, groupNumber) -> None:
+    def __init__(self, name="Ivan", age=18, groupNumber="10A"):
         self.name = name
         self.age = age
         self.groupNumber = groupNumber
 
-    def getName(self) -> str:
+    def getName(self):
         return self.name
 
-    def getAge(self) -> int:
+    def getAge(self):
         return self.age
 
-    def getGroupNumber(self) -> str:
+    def getGroupNumber(self):
         return self.groupNumber
 
     def setGroupNumber(self, groupNumber):
@@ -25,7 +21,7 @@ class Student(object):
         self.age = age
 
 
-st1 = Student("A", 6, "1")
+st1 = Student()
 st2 = Student("B", 7, "2")
 st3 = Student("C", 8, "3")
 st4 = Student("D", 9, "4")
