@@ -1,4 +1,5 @@
 from abc import ABC
+from entities.course import Course
 
 
 class Mentor(ABC):
@@ -7,7 +8,7 @@ class Mentor(ABC):
         self.surname = surname
         self.courses = []
 
-    # getters
+    # getters #
     def GetName(self):
         return self.name
 
@@ -17,9 +18,9 @@ class Mentor(ABC):
     def GetCourses(self):
         return self.courses
 
-    # setters
-    def AddCourse(self, courseName: str):
-        self.courses.append(courseName)
+    # setters #
+    def AddCourse(self, course: Course):
+        self.courses.append(course)
 
-    def RemoveCourse(self, course_name: str):
-        self.courses.remove(course_name)
+    def RemoveCourse(self, courseTitile: str):
+        self.courses = filter(lambda c: c.RemoveLecturer(this), self.courses)

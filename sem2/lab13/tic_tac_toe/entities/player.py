@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-# Базовый класс игрока
+""" Базовый класс игрока """
 class Player(ABC):
 
-    # Инициализация игрока
+    """ Инициализация игрока """
     def __init__(self, index, symbol, playerName="playerName"):
         self.index = index
         self.symbol = symbol
@@ -16,15 +16,15 @@ class Player(ABC):
     def getIndex(self):
         return self.index
 
-    # Победил ли игрок?
+    """ Победил ли игрок? """
     def isWon(self) -> bool:
         return self.won
 
-    # Игрок победил
+    """ Игрок победил """
     def setWon(self):
         self.won = True
 
-    # Метод получения имени игрока
+    """ Метод получения имени игрока """
     def getPlayerName(self):
         return self.playerName
 

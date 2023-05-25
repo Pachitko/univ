@@ -1,4 +1,3 @@
-from entities.lecturer import Lecturer
 from entities.course import Course
 from enum import Enum
 import statistics
@@ -36,7 +35,7 @@ class Student:
         self.grades = {}
 
     def AddCourse(self, course: Course):
-        self.courses[course.GetTitle()] = CourseProgess(course)
+        self.courses[course.GetTitle()] = CourseState(course)
 
     def StartCourse(self, courseTitle: str):
         self.courses[courseTitle].StartCourse()

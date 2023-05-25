@@ -1,9 +1,9 @@
 from player import Player
 
-# Игрок-человек
+""" Игрок-человек """
 class HumanPlayer(Player):
 
-    # Получение индекса выбранной клетки для игрока-человека
+    """ Получение индекса выбранной клетки для игрока-человека """
     def getSelectedCellIndex(self) -> int:
         cellIndex = input()
 

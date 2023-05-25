@@ -2,8 +2,11 @@ from entities.lecturer import Lecturer
 
 
 class Course:
-    def __init__(self, title: str, lecturer: Lecturer):
+    def __init__(self, title: str, lecturer: Lecturer = None):
         self.title = title
+        self.lecturer = lecturer
+
+    def SetLecturer(self, lecturer: Lecturer):
         self.lecturer = lecturer
 
     def GetLecturer(self) -> Lecturer:
