@@ -1,6 +1,6 @@
 from entities.mentor import Mentor
 from entities.student import Student
-
+from entities.course import Course
 
 class Reviewer(Mentor):
 
@@ -11,11 +11,11 @@ class Reviewer(Mentor):
         for elemement in self.GetCourses():
             print(elemement)
 
-    def __add__(self, other: str):
-        self.AddCourse(other)
+    def __add__(self, course: Course):
+        self.AddCourse(course)
 
-    def __sub__(self, other: str):
-        self.RemoveCourse(other)
+    def __sub__(self, course: Course):
+        self.RemoveCourse(course)
 
     def __hash__(self):
         return hash((self.name, self.surname))
@@ -23,5 +23,5 @@ class Reviewer(Mentor):
     def __str__(self):
         return f"Имя: {self.name}\nФамилия: {self.surname}"
 
-    def SetStudentGrade(self, student: Student, courseTitle: str, grade: int):
-        student.SetGrade(courseTitle, grade)
+    def SetStudentGrade(self, student: Student, courseId: int, grade: int):
+        student.SetGrade(courseId, grade)

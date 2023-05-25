@@ -8,8 +8,8 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.grades = {}
 
-    def SetGrade(self, courseName: str, grade: int):
-        self.grades[courseName] = grade
+    def SetGrade(self, courseId: int, grade: int):
+        self.grades[courseId] = grade
 
     def GetGrades(self) -> dict[str, int]:
         return self.grades

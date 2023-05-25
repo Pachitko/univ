@@ -1,6 +1,6 @@
 from abc import ABC
 from entities.course import Course
-
+from typing import Callable
 
 class Mentor(ABC):
     def __init__(self, name: str, surname: str):
@@ -22,5 +22,6 @@ class Mentor(ABC):
     def AddCourse(self, course: Course):
         self.courses.append(course)
 
-    def RemoveCourse(self, courseTitile: str):
-        self.courses = filter(lambda c: c.RemoveLecturer(this), self.courses)
+    def RemoveCourse(self, course: Course):
+        courseFilter: Callable[[Course], bool] = lambda c: c.GetId() != course.GetId()
+        self.courses = filter(courseFilter, self.courses)

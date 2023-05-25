@@ -3,15 +3,14 @@ from entities.reviewer import Reviewer
 from entities.student import Student
 from entities.course import Course
 
-
-def CalculateAverageGradeByCourseToLecturers(lecturers: list[Lecturer], course_name: str):
+def CalcAvgLecturerGradeByCourse(lecturers: list[Lecturer], courseId: int):
     sum = 0
     count = 0
 
     for lecturer in lecturers:
         grades = lecturer.GetGrades()
-        if course_name in grades:
-            grade = grades[course_name]
+        if courseId in grades:
+            grade = grades[courseId]
             sum = sum + grade
             count = count + 1
     average_grade = 0
@@ -20,13 +19,13 @@ def CalculateAverageGradeByCourseToLecturers(lecturers: list[Lecturer], course_n
     return average_grade
 
 
-def CalculateAverageGradeByCourseToStudents(students: list[Student], course_name: str):
+def CalcAvgStudentGradeByCourse(students: list[Student], courseId: int):
     sum = 0
     count = 0
     for student in students:
         student_grades = student.get_grades()
-        if course_name in student_grades:
-            grade = student_grades[course_name]
+        if courseId in student_grades:
+            grade = student_grades[courseId]
             sum = sum + grade
             count = count + 1
     average_grade = 0
@@ -34,62 +33,71 @@ def CalculateAverageGradeByCourseToStudents(students: list[Student], course_name
         average_grade = sum / count
     return average_grade
 
-# Lecturers
-cool_lecturer = Lecturer('Some', 'Buddy')
-cool_lecturer.AddCourse("Python")
-
-not_so_cool_lecturer = Lecturer("Vince", "Carter")
-not_so_cool_lecturer.AddCourse("Python")
-
-bad_lecturer = Lecturer("Jason", "Tatum")
-bad_lecturer.AddCourse("Python")
-
 # Courses
-pythonCourse = Course("Python")
-pythonCourse = Course("Python")
+pythonCourse1 = Course(1, "Python")
+pythonCourse2 = Course(1, "Python")
+pythonCourse3 = Course(1, "Python")
+csharpCourse = Course(2, "C#")
+cppCourse = Course(3, "C++")
+
+# Lecturers
+lecturer1 = Lecturer('Some1', 'Buddy1')
+lecturer1.AddCourse(pythonCourse1)
+pythonCourse1.SetLecturer(lecturer1)
+
+lecturer2 = Lecturer('Some2', 'Buddy2')
+lecturer2.AddCourse(pythonCourse2)
+pythonCourse2.SetLecturer(lecturer2)
+
+lecturer3 = Lecturer('Some3', 'Buddy3')
+lecturer3.AddCourse(pythonCourse3)
+pythonCourse3.SetLecturer(lecturer3)
 
 # Students
-best_student = Student("Joel", "Embiid")
-best_student.AddCourse(pythonCourse)
-best_student.StartCourse("Python")
-best_student.StartCourse("Java")
-best_student.FinishCourse("ML")
+student1 = Student("name1", "surname1")
 
-not_best_student = Student("Lebron", "James")
-not_best_student.StartCourse('Python')
+student1.AddCourse(pythonCourse1)
+student1.AddCourse(pythonCourse2)
+student1.AddCourse(pythonCourse3)
+student1.AddCourse(csharpCourse)
+student1.AddCourse(cppCourse)
 
-almost_best_student = Student("Stephen", "Curry")
-almost_best_student.StartCourse("Python")
+student1.StartCourse(pythonCourse1.GetId())
+student1.StartCourse(csharpCourse.GetId())
+student1.FinishCourse(cppCourse.GetId())
 
-cool_reviewer = Reviewer('Some', 'Buddy')
-cool_reviewer.AddCourse("Python")
-cool_reviewer.RateStudentWork(best_student, "Python", 10)
-cool_reviewer.RateStudentWork(not_best_student, "Python", 8)
-cool_reviewer.RateStudentWork(almost_best_student, "Python", 9)
-cool_reviewer + "Java"
+student2 = Student("name2", "surname2")
+student2.AddCourse(pythonCourse1)
+student2.StartCourse(pythonCourse1.GetId())
 
-students = [best_student, almost_best_student, not_best_student]
+reviewer = Reviewer('name1', 'surname1')
+reviewer + pythonCourse1
+reviewer.SetStudentGrade(student1, pythonCourse1.GetId(), 9)
+reviewer.SetStudentGrade(student2, pythonCourse1.GetId(), 5)
+reviewer + csharpCourse
+
+students = [student1, student2]
 
 print("Средняя оценка студентов за курс Python от проверяющих: ",
-        CalculateAverageGradeByCourseToStudents(students, "Python"))
+        CalcAvgStudentGradeByCourse(students, pythonCourse1.GetId()))
 
-best_student.RateLecturer("Python", cool_lecturer, 10)
-best_student.RateLecturer("Python", not_so_cool_lecturer, 7)
-best_student.RateLecturer("Python", bad_lecturer, 4)
+student1.RateLecturer(pythonCourse1.GetId(), 3)
+student2.RateLecturer(pythonCourse1.GetId(), 7)
 
-lecturers = [cool_lecturer, not_so_cool_lecturer, bad_lecturer]
+lecturers = [lecturer1, lecturer2, lecturer3]
 
 print("Средняя оценка лекторов за курс Python от студентов: ",
-        CalculateAverageGradeByCourseToLecturers(lecturers, "Python"))
+        CalcAvgLecturerGradeByCourse(lecturers, pythonCourse1.GetId()))
 
-print("Лучше ли первый студент второго? ", best_student > not_best_student)
-print()
-print(cool_lecturer)
-print()
-print(best_student)
-print()
+if 1 > 2:
+    print("Лучше ли первый студент второго? ", best_student > not_best_student)
+    print()
+    print(lecturer1)
+    print()
+    print(best_student)
+    print()
 
-print("Имя студента: ", best_student.GetName())
-print("Имя преподавателя: ", cool_lecturer.GetName())
-print("Оценки лектора по курсам: ", cool_lecturer.GetGrades())
-print("Оценки студента по курсам: ", best_student.get_grades())
+    print("Имя студента: ", best_student.GetName())
+    print("Имя преподавателя: ", lecturer1.GetName())
+    print("Оценки лектора по курсам: ", lecturer1.GetGrades())
+    print("Оценки студента по курсам: ", best_student.get_grades())

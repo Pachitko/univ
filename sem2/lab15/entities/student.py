@@ -31,23 +31,23 @@ class Student:
     def __init__(self, name: str, surname: str):
         self.__name = name
         self.__surname = surname
-        self.courses: dict[str, CourseState] = {}
+        self.courses: dict[int, CourseState] = {}
         self.grades = {}
 
     def AddCourse(self, course: Course):
-        self.courses[course.GetTitle()] = CourseState(course)
+        self.courses[course.GetId()] = CourseState(course)
 
-    def StartCourse(self, courseTitle: str):
-        self.courses[courseTitle].StartCourse()
+    def StartCourse(self, courseId: int):
+        self.courses[courseId].StartCourse()
 
-    def FinishCourse(self, courseTitle: str):
-        self.courses[courseTitle].FinishCourse()
+    def FinishCourse(self, courseId: int):
+        self.courses[courseId].FinishCourse()
 
-    def SetGrade(self, courseTitle: str, grade: int):
-        self.grades[courseTitle] = grade
+    def SetGrade(self, courseId: int, grade: int):
+        self.grades[courseId] = grade
 
-    def RateLecturer(self, courseTitle: str, grade: int):
-        self.courses[courseTitle].GetCourse().GetLecturer().SetGrade(grade)
+    def RateLecturer(self, courseId: int, grade: int):
+        self.courses[courseId].GetCourse().GetLecturer().SetGrade(courseId, grade)
 
     def GetName(self):
         return self.__name
