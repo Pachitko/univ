@@ -3,6 +3,7 @@ from entities.reviewer import Reviewer
 from entities.student import Student
 from entities.course import Course
 
+
 def CalcAvgLecturerGradeByCourse(lecturers: list[Lecturer], courseId: int):
     sum = 0
     count = 0
@@ -23,7 +24,7 @@ def CalcAvgStudentGradeByCourse(students: list[Student], courseId: int):
     sum = 0
     count = 0
     for student in students:
-        student_grades = student.get_grades()
+        student_grades = student.GetGrades()
         if courseId in student_grades:
             grade = student_grades[courseId]
             sum = sum + grade
@@ -32,6 +33,7 @@ def CalcAvgStudentGradeByCourse(students: list[Student], courseId: int):
     if count != 0:
         average_grade = sum / count
     return average_grade
+
 
 # Courses
 pythonCourse1 = Course(1, "Python")
@@ -78,26 +80,23 @@ reviewer + csharpCourse
 
 students = [student1, student2]
 
-print("Средняя оценка студентов за курс Python от проверяющих: ",
-        CalcAvgStudentGradeByCourse(students, pythonCourse1.GetId()))
+print(f"Средняя оценка за домашнее задание по студентам в рамках курса по {pythonCourse1.GetTitle()}: ",
+      CalcAvgStudentGradeByCourse(students, pythonCourse1.GetId()))
 
 student1.RateLecturer(pythonCourse1.GetId(), 3)
 student2.RateLecturer(pythonCourse1.GetId(), 7)
 
 lecturers = [lecturer1, lecturer2, lecturer3]
 
-print("Средняя оценка лекторов за курс Python от студентов: ",
-        CalcAvgLecturerGradeByCourse(lecturers, pythonCourse1.GetId()))
+print(f"Средняя оценка за лекции лекторов в рамках курса по {pythonCourse1.GetTitle()}: ",
+      CalcAvgLecturerGradeByCourse(lecturers, pythonCourse1.GetId()))
 
-if 1 > 2:
-    print("Лучше ли первый студент второго? ", best_student > not_best_student)
-    print()
-    print(lecturer1)
-    print()
-    print(best_student)
-    print()
+print("Первый студет умнее второго" if (student1 > student2)
+      else "Второй студент умнее первого")
 
-    print("Имя студента: ", best_student.GetName())
-    print("Имя преподавателя: ", lecturer1.GetName())
-    print("Оценки лектора по курсам: ", lecturer1.GetGrades())
-    print("Оценки студента по курсам: ", best_student.get_grades())
+print(f"\nReviewer:\n{reviewer}")
+print(f"\nLecturer1:\n{lecturer1}")
+print(f"\nStudent1:\n{student1}\n")
+
+print(f"Lecturer grades by courses: {lecturer1.GetGrades()}")
+print(f"Student grades by courses: {student1.GetGrades()}")

@@ -14,7 +14,7 @@ class CourseState:
         self.course = course
         self.progress = CourseProgess.NotStarted
 
-    def GetProgess(self):
+    def GetProgress(self):
         return self.progress
 
     def StartCourse(self):
@@ -29,8 +29,8 @@ class CourseState:
 
 class Student:
     def __init__(self, name: str, surname: str):
-        self.__name = name
-        self.__surname = surname
+        self.name = name
+        self.surname = surname
         self.courses: dict[int, CourseState] = {}
         self.grades = {}
 
@@ -47,13 +47,14 @@ class Student:
         self.grades[courseId] = grade
 
     def RateLecturer(self, courseId: int, grade: int):
-        self.courses[courseId].GetCourse().GetLecturer().SetGrade(courseId, grade)
+        self.courses[courseId].GetCourse(
+        ).GetLecturer().SetGrade(courseId, grade)
 
     def GetName(self):
-        return self.__name
+        return self.name
 
     def GetSurname(self):
-        return self.__surname
+        return self.surname
 
     def GetFinishedCourses(self) -> list[CourseState]:
         return list(filter(lambda c: c.GetProgress() == CourseProgess.Finished, self.courses))
@@ -61,26 +62,26 @@ class Student:
     def GetCoursesInProgress(self) -> list[CourseState]:
         return list(filter(lambda c: c.GetProgress() == CourseProgess.InProgess, self.courses))
 
-    def get_grades(self):
+    def GetGrades(self):
         return self.grades
 
     def GetAverageGrade(self) -> float:
-        return statistics.mean(self.grades.values)
+        return statistics.mean(self.grades.values())
 
     def GetCourseTitlesByCourseProgress(self, courseProgess: CourseProgess):
         return ", ".join(list(
             map(lambda c: c.GetTitle(),
                 filter(lambda c: c.GetProgress() == courseProgess,
-                       self.courses))))
+                       self.courses.values()))))
 
     def __str__(self):
-        return f"Имя: {self.__name}\nФамилия: {self.__surname}\nСредняя оценка за лекции: {self.GetAverageGrade()}\nКурсы в процессе изучения: {self.GetCourseTitlesByCourseProgress(CourseProgess.InProgess)} \nЗавершенные курсы: {self.GetCourseTitlesByCourseProgress(CourseProgess.Finished)}"
+        return f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.GetAverageGrade()}\nКурсы в процессе изучения: {self.GetCourseTitlesByCourseProgress(CourseProgess.InProgess)} \nЗавершенные курсы: {self.GetCourseTitlesByCourseProgress(CourseProgess.Finished)}"
 
-    def __lt__(self, other):
-        return self.GetAverageGrade() < other.calculate_average_grade()
+    def __lt__(self, otherStudent):
+        return self.GetAverageGrade() < otherStudent.GetAverageGrade()
 
-    def __gt__(self, other):
-        return self.GetAverageGrade() > other.calculate_average_grade()
+    def __gt__(self, otherStudent):
+        return self.GetAverageGrade() > otherStudent.GetAverageGrade()
 
     def __hash__(self):
-        return hash((self.__name, self.__surname))
+        return hash((self.name, self.surname))

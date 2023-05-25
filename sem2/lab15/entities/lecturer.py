@@ -15,7 +15,7 @@ class Lecturer(Mentor):
         return self.grades
 
     def GetAverageGrade(self) -> float:
-        return statistics.mean(self.grades.values)
+        return statistics.mean(self.grades.values())
 
     def __str__(self):
         return f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.GetAverageGrade()}"
