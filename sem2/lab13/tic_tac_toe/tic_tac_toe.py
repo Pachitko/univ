@@ -1,15 +1,17 @@
-from board import Board
-from player import Player
-from humanPlayer import HumanPlayer
-from pcPlayer import PcPlayer
+from entities.board import Board
+from entities.player import Player
+from entities.humanPlayer import HumanPlayer
+from entities.pcPlayer import PcPlayer
 
 # Сущность игры
+
+
 class Game:
     # Занять клетку, True - клетка успешно занята, False - клетка уже была занята
     def selectCell(self, board: Board, index: int, player: Player) -> bool:
         if board.isCellSelected(index):
             return False
-        
+
         board.selectCell(index, player)
         return True
 
