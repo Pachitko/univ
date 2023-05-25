@@ -2,6 +2,7 @@ from entities.mentor import Mentor
 from entities.student import Student
 from entities.course import Course
 
+
 class Reviewer(Mentor):
 
     def __init__(self, name: str, surname: str):

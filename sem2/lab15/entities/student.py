@@ -48,12 +48,12 @@ class Student:
 
     def RateLecturer(self, courseId: int, grade: int):
         self.courses[courseId].GetCourse(
-        ).GetLecturer().SetGrade(courseId, grade)
+        ).GetLecturer().AddGrade(courseId, grade)
 
-    def GetName(self):
+    def GetName(self) -> str:
         return self.name
 
-    def GetSurname(self):
+    def GetSurname(self) -> str:
         return self.surname
 
     def GetFinishedCourses(self) -> list[CourseState]:
@@ -62,13 +62,19 @@ class Student:
     def GetCoursesInProgress(self) -> list[CourseState]:
         return list(filter(lambda c: c.GetProgress() == CourseProgess.InProgess, self.courses))
 
-    def GetGrades(self):
+    def GetGrades(self) -> list[int]:
         return self.grades
+
+    def __call__(self, courseId: int) -> list[int]:
+        if courseId in self.courses:
+            return [self.grades[courseId]]
+        else:
+            return []
 
     def GetAverageGrade(self) -> float:
         return statistics.mean(self.grades.values())
 
-    def GetCourseTitlesByCourseProgress(self, courseProgess: CourseProgess):
+    def GetCourseTitlesByCourseProgress(self, courseProgess: CourseProgess) -> str:
         return ", ".join(list(
             map(lambda c: c.GetTitle(),
                 filter(lambda c: c.GetProgress() == courseProgess,

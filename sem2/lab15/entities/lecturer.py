@@ -1,5 +1,11 @@
 from entities.mentor import Mentor
 import statistics
+from typing import TypedDict
+
+
+class CourseGrades(TypedDict):
+    courseId: int
+    grades: list[int]
 
 
 class Lecturer(Mentor):
@@ -8,14 +14,26 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.grades = {}
 
-    def SetGrade(self, courseId: int, grade: int):
-        self.grades[courseId] = grade
+    def AddGrade(self, courseId: int, grade: int):
+        if courseId in self.grades.keys():
+            self.grades[courseId].append(grade)
+        else:
+            self.grades[courseId] = [grade]
 
-    def GetGrades(self) -> dict[str, int]:
+    def GetGrades(self) -> dict[int, list[int]]:
         return self.grades
 
     def GetAverageGrade(self) -> float:
-        return statistics.mean(self.grades.values())
+        grades = []
+        for courseGrades in self.grades.values():
+            grades += courseGrades
+        return statistics.mean(grades)
+
+    def __call__(self, courseId: int) -> list[int]:
+        if courseId in self.grades:
+            return self.grades[courseId]
+        else:
+            return []
 
     def __str__(self):
         return f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.GetAverageGrade()}"

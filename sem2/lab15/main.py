@@ -2,37 +2,15 @@ from entities.lecturer import Lecturer
 from entities.reviewer import Reviewer
 from entities.student import Student
 from entities.course import Course
+import statistics
 
 
-def CalcAvgLecturerGradeByCourse(lecturers: list[Lecturer], courseId: int):
-    sum = 0
-    count = 0
-
-    for lecturer in lecturers:
-        grades = lecturer.GetGrades()
-        if courseId in grades:
-            grade = grades[courseId]
-            sum = sum + grade
-            count = count + 1
-    average_grade = 0
-    if count != 0:
-        average_grade = sum / count
-    return average_grade
+def Flatten(list):
+    return [item for sublist in list for item in sublist]
 
 
-def CalcAvgStudentGradeByCourse(students: list[Student], courseId: int):
-    sum = 0
-    count = 0
-    for student in students:
-        student_grades = student.GetGrades()
-        if courseId in student_grades:
-            grade = student_grades[courseId]
-            sum = sum + grade
-            count = count + 1
-    average_grade = 0
-    if count != 0:
-        average_grade = sum / count
-    return average_grade
+def CalcAvgGrade(gradeables, courseId: int):
+    return statistics.mean(Flatten(map(lambda gradeable: gradeable(courseId), gradeables)))
 
 
 # Courses
@@ -80,8 +58,8 @@ reviewer + csharpCourse
 
 students = [student1, student2]
 
-print(f"Средняя оценка за домашнее задание по студентам в рамках курса по {pythonCourse1.GetTitle()}: ",
-      CalcAvgStudentGradeByCourse(students, pythonCourse1.GetId()))
+print(f"Средняя оценка за домашнее задание по студентам в рамках курса по {pythonCourse1.GetTitle()} {pythonCourse1.GetId()}: ",
+      CalcAvgGrade(students, pythonCourse1.GetId()))
 
 student1.RateLecturer(pythonCourse1.GetId(), 3)
 student2.RateLecturer(pythonCourse1.GetId(), 7)
@@ -89,10 +67,10 @@ student2.RateLecturer(pythonCourse1.GetId(), 7)
 lecturers = [lecturer1, lecturer2, lecturer3]
 
 print(f"Средняя оценка за лекции лекторов в рамках курса по {pythonCourse1.GetTitle()}: ",
-      CalcAvgLecturerGradeByCourse(lecturers, pythonCourse1.GetId()))
+      CalcAvgGrade(lecturers, pythonCourse1.GetId()))
 
-print("Первый студет умнее второго" if (student1 > student2)
-      else "Второй студент умнее первого")
+print("\nПервый студет умнее второго" if (student1 > student2)
+      else "\nВторой студент умнее первого")
 
 print(f"\nReviewer:\n{reviewer}")
 print(f"\nLecturer1:\n{lecturer1}")

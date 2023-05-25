@@ -1,12 +1,12 @@
 class Course:
-    def __init__(self, id: int, title: str, lecturer = None):
+    def __init__(self, id: int, title: str, lecturer=None):
         self.id = id
         self.title = title
         self.lecturer = lecturer
 
-    def GetId(self):
+    def GetId(self) -> int:
         return self.id
-    
+
     def SetLecturer(self, lecturer):
         self.lecturer = lecturer
 
